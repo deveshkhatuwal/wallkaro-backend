@@ -34,7 +34,7 @@ const wallpaperSchema = mongoose.Schema({
   authorid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Authorid',
-    required: true
+   
   },
   datatime: {
     type: Date,

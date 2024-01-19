@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = 5000;
-
+const uri ="mongodb+srv://devesh:devesh.1@cluster0.6lvsx80.mongodb.net/?retryWrites=true&w=majority";
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/wallpaper-app');
+mongoose.connect(uri, );
 
 // Import models
 const Wallpaper = require('./models/wallpaper');
