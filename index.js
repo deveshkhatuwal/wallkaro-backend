@@ -5,8 +5,8 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = 8000;
-const uri = "mongodb://127.0.0.1:27017/wallpaper-app"
-// const uri ="mongodb+srv://devesh:devesh.1@cluster0.6lvsx80.mongodb.net/?retryWrites=true&w=majority";
+// const uri = "mongodb://127.0.0.1:27017/wallpaper-app"
+const uri ="mongodb+srv://devesh:devesh.1@cluster0.6lvsx80.mongodb.net/wallkaro?retryWrites=true&w=majority";
 // // Connect to MongoDB
 mongoose.connect(uri, );
 
