@@ -4,9 +4,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 5000;
-const uri ="mongodb+srv://devesh:devesh.1@cluster0.6lvsx80.mongodb.net/?retryWrites=true&w=majority";
-// Connect to MongoDB
+const PORT = 8000;
+const uri = "mongodb://127.0.0.1:27017/wallpaper-app"
+// const uri ="mongodb+srv://devesh:devesh.1@cluster0.6lvsx80.mongodb.net/?retryWrites=true&w=majority";
+// // Connect to MongoDB
 mongoose.connect(uri, );
 
 // Import models
@@ -14,6 +15,7 @@ mongoose.connect(uri, );
 // const Author = require('./models/author');
 const authorRoutes = require('./routes/authorRoutes');
 const wallpaperRoutes = require('./routes/wallpaperRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -21,6 +23,7 @@ app.use(bodyParser.json());
 
 app.use('/author', authorRoutes);
 app.use('/wallpaper', wallpaperRoutes);
+app.use('/category', categoryRoutes);
 
 // API Routes
 // app.get('/wallpaper/list', async (req, res) => {
