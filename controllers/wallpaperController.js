@@ -107,9 +107,9 @@ const addWallpaper = async (req, res) => {
   }
 };
 const editWallpaper = async (req, res) => {
-  const { id, title } = req.body;
+  const { id,imageurl} = req.body;
   try {
-    const newUpdateWallpaper = await Wallpaper.findByIdAndUpdate(id, { title }, { new: true });
+    const newUpdateWallpaper = await Wallpaper.findByIdAndUpdate(id, { imageurl }, { new: true });
     res.json(newUpdateWallpaper);
   } catch (error) {
     console.error('Error in /wallpaper/edit route:', error);
