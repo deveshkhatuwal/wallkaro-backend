@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 8000;
+const PORT = 9000;
 // const uri = "mongodb://127.0.0.1:27017/wallpaper-app"
 const uri ="mongodb+srv://devesh:devesh.1@cluster0.6lvsx80.mongodb.net/wallkaro?retryWrites=true&w=majority";
 // // Connect to MongoDB
@@ -16,11 +16,12 @@ mongoose.connect(uri, );
 const authorRoutes = require('./routes/authorRoutes');
 const wallpaperRoutes = require('./routes/wallpaperRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const authRoutes = require('./routes/authRoutes');
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
+app.use('/auth', authRoutes);
 app.use('/author', authorRoutes);
 app.use('/wallpaper', wallpaperRoutes);
 app.use('/category', categoryRoutes);
@@ -182,7 +183,7 @@ app.get('*', (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://192.168.1.17:${PORT}`);
+  console.log(`Server is running on http://192.168.1.9:${PORT}`);
 });
 // app.listen(PORT, () => {
 //   console.log(`Server is running on http://127.0.0.1:${PORT}`);

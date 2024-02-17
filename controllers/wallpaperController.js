@@ -3,11 +3,52 @@ const Wallpaper = require('../models/wallpaper');
 const Author = require('../models/author');
 const Category = require('../models/category');
 
+const incrementPoints = async (req, res) => {
+  try {
+      const { imageurl ,creatorName } = req.body;
+
+      // Find the creator by ID
+      // const authorname = await Author.findOne({ username: creatorName });
+      const author = await Author.findOne({ username: creatorName });
+      const wallpaper = await Wallpaper.findOne({ imageurl: imageurl });
+      if (!author) {
+        return res.status(404).json({ message: 'Creator not found' });
+    }
+      if (!wallpaper) {
+          return res.status(404).json({ message: 'wallpaper not found' });
+      }
+
+      const currentprofilePoints = parseInt(author.totalpoints);
+      const currentPoints = parseInt(wallpaper.points);
+
+
+      // Increment points
+      wallpaper.points = currentPoints + 1;
+      author.totalpoints = currentprofilePoints + 1;
+      
+      // Save the updated creator object to the database
+
+      
+    
+
+
+      // Increment points
+      
+      // Save the updated creator object to the database
+      await wallpaper.save();
+      await author.save();
+
+      res.json({ message: 'Points incremented successfully', newPoints: wallpaper.points , newTotalCreatorPoint : author.totalpoints});
+  } catch (error) {
+      console.error('Error incrementing points:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 const listWallpapers = async (req, res) => {
   try {
     const wallpapers = await Wallpaper.find().populate({
       path: 'author',
-      select: 'name',
+      select: 'username',
     });
     // .populate('category', 'name')
     // const wallpapers = await Wallpaper.find().populate({
@@ -21,9 +62,12 @@ const listWallpapers = async (req, res) => {
       category: wallpaper.category
       ?  wallpaper.category._id
       : null,
+      categoryname: wallpaper.categoryname
+      ?  wallpaper.categoryname
+      : null,
       trending : wallpaper.trending,
       imageurl: wallpaper.imageurl,
-      authorname: wallpaper.author.name ? wallpaper.author.name : 'Unknown',
+      authorname: wallpaper.author ? wallpaper.author.username : 'Unknown',
       authorid: wallpaper.author._id,
       date: wallpaper.datatime,
     }));
@@ -66,15 +110,23 @@ const trendingWallpapers = async (req, res) => {
 const addWallpaper = async (req, res) => {
   let existingCategory; 
   try {
-    const { title, authorname, trending, category, imageurl } = req.body;
-
+    const { title, authorname, trending, category, getimageurl } = req.body;
+    console.log(req.body);
+//     const googleDriveLink = getimageurl;
+//     const fileIdMatch = googleDriveLink.match(/\/file\/d\/([^\/?]+)\//);
+  
+// // Check if there's a match and extract the file ID
+// const fileId = fileIdMatch && fileIdMatch[1];
+// const finalImageUrl = ("https://drive.usercontent.google.com/download?id="+fileId) ; 
+console.log(finalImageUrl);
     let existingAuthor = await Author.findOne({
-      'name': authorname,
+      'username': authorname,
     });
 
     if (!existingAuthor) {
+      console.log('existing user');
       existingAuthor = new Author({
-        name: authorname,
+        username: authorname,
       });
       await existingAuthor.save();
     }
@@ -90,13 +142,17 @@ const addWallpaper = async (req, res) => {
       await existingCategory.save();
     }
 
-    const newWallpaper = new Wallpaper({
-      title,
-      imageurl,
+    const newWallpaper = new Wallpaper(
+   
+      {
+      title : title,
+      imageurl : getimageurl,
       category: existingCategory._id,
       trending,
       author: existingAuthor._id,
-    });
+    },
+    console.log("new wallpaper clicked")
+    );
 
     await newWallpaper.save();
 
@@ -137,4 +193,5 @@ module.exports = {
   addWallpaper,
   editWallpaper,
   deleteWallpaper,
+  incrementPoints,
 };

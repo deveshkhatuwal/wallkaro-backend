@@ -1,19 +1,24 @@
 const mongoose = require('mongoose');
 
 const authorSchema = mongoose.Schema({
-    name:{
-        type: String,
-        require: true
-    },
+    username: { type: String, unique: true, required: true },
+    password: { type: String, required: true },
     rank:{
         type: Number,
-        require: true
+        // require: true
+        default : 0
     },
+
     profileimage: {
         type: String,
-        required: true
-        // default : "https://images.pexels.com/photos/1496373/pexels-photo-1496373.jpeg?auto=compress&cs=tinysrgb&w=600"
+        // required: true
+        default : "https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg"
       },
+    totalpoints : {
+        type: Number,
+        // require: true
+        default : 0
+    },
     datatime: {
         type: Date,
         default: Date.now
