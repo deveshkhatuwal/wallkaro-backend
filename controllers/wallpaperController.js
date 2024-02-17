@@ -118,7 +118,7 @@ const addWallpaper = async (req, res) => {
 // // Check if there's a match and extract the file ID
 // const fileId = fileIdMatch && fileIdMatch[1];
 // const finalImageUrl = ("https://drive.usercontent.google.com/download?id="+fileId) ; 
-console.log(finalImageUrl);
+//console.log(finalImageUrl);
     let existingAuthor = await Author.findOne({
       'username': authorname,
     });
