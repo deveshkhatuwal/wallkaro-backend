@@ -5,8 +5,8 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = 8080;
-const uri = "mongodb://127.0.0.1:27017/wallpaper-app"
-// const uri ="mongodb+srv://devesh:devesh.1@cluster0.6lvsx80.mongodb.net/wallkaro?retryWrites=true&w=majority";
+// const uri = "mongodb://127.0.0.1:27017/wallpaper-app"
+const uri ="mongodb+srv://devesh:devesh.1@cluster0.6lvsx80.mongodb.net/wallkaro?retryWrites=true&w=majority";
 // // Connect to MongoDB
 mongoose.connect(uri, );
 
@@ -14,7 +14,7 @@ mongoose.connect(uri, );
 // const Wallpaper = require('./models/wallpaper');
 // const Author = require('./models/author');
 const authorRoutes = require('./routes/authorRoutes');
-const wallpaperRoutes = require('./routes/wallpaperRoutes');
+const wallpaperRoutes = require('../routes/wallpaperRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const authRoutes = require('./routes/authRoutes');
 // Middleware
