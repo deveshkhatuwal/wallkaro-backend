@@ -14,7 +14,7 @@ mongoose.connect(uri, );
 // const Wallpaper = require('./models/wallpaper');
 // const Author = require('./models/author');
 const authorRoutes = require('./routes/authorRoutes');
-const wallpaperRoutes = require('../routes/wallpaperRoutes');
+const wallpaperRoutes = require('./routes/wallpaperRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const authRoutes = require('./routes/authRoutes');
 // Middleware
