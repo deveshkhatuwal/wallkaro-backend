@@ -1,16 +1,118 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   
-    <title>Home Page</title>
-    <style>
-        h1 {
-            color: green;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category and Wallpaper List</title>
+  <style>
+      .list-item img {
+      max-width: 10%;
+      max-height: 10%;
+      /* height: auto; */
+      border-radius: 8px; /* Add border-radius for rounded corners */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+    }
+    .title {
+        text-align:center;
+        color: blueviolet;
+    }
+    .container {
+      display: flex;
+      justify-content: space-evenly;
+    }
+    .category-list, .Author-list , .Wallpaper-list{
+      width: 40%;
+      border: 2px solid #ccc;
+      padding: 10px;
+    }
+    .list-item {
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
-    <h1>This is Home page</h1>
-    <h3>Node js tutorial</h3>
+  <h1 class="title">Category and Author List</h1>
+  <div class="container">
+    <div class="Author-list">
+      <h2>Author List</h2>
+      <ul id="Author-list"></ul>
+    </div>
+    <div class="category-list">
+      <h2>Category List</h2>
+      <ul id="category-list"></ul>
+    </div>
+    <div class="Wallpaper-list">
+        <h2>Wallpaper List</h2>
+        <ul id="Wallpaper-list"></ul>
+      </div>
+  </div>
+
+
+  <script>
+    async function fetchAuthors() {
+      try {
+        const response = await fetch('http://192.168.1.17:8080/author/list/');
+        const authors = await response.json();
+        displayAuthors(authors);
+      } catch (error) {
+        console.error('Error fetching authors:', error);
+      }
+    }
+    async function fetchcategory() {
+      try {
+        const response = await fetch('http://192.168.1.17:8080/category/list/');
+        const categories = await response.json();
+        displaycategory(categories);
+      } catch (error) {
+        console.error('Error fetching authors:', error);
+      }
+    }
+    async function fetchWallpaper() {
+      try {
+        const response = await fetch('http://192.168.1.17:8080/wallpaper/list/');
+        const wallpapers = await response.json();
+        displayWallpaper(wallpapers);
+      } catch (error) {
+        console.error('Error fetching authors:', error);
+      }
+    }
+
+    function displayAuthors(authors) {
+      const authorsList = document.getElementById('Author-list');
+      authors.forEach(author => {
+        const listItem = document.createElement('li');
+        listItem.textContent = author.username; // Adjust the field name based on your schema
+        authorsList.appendChild(listItem);
+      });
+    }
+    function displaycategory(categories) {
+      const categorylist = document.getElementById('category-list');
+      categories.forEach(cateogry => {
+        const listItem1 = document.createElement('li');
+        listItem1.textContent = cateogry.name; // Adjust the field name based on your schema
+        categorylist.appendChild(listItem1);
+      });
+    }
+    function displayWallpaper(wallpapers) {
+      const wallpaperlist = document.getElementById('Wallpaper-list');
+      wallpapers.forEach(wallpaper => {
+        const listItem2 = document.createElement('li');
+        listItem2.textContent = wallpaper.title; 
+        const image = document.createElement('img');
+        image.src = wallpaper.imageurl;
+        image.alt = wallpaper.title;
+        image.style.height = '200px';
+        image.style.width = '200px';
+        image.style.marginLeft = ' 40px';
+        listItem2.appendChild(image);// Adjust the field name based on your schema
+        wallpaperlist.appendChild(listItem2);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded',  fetchcategory);
+    window.addEventListener('DOMContentLoaded',  fetchAuthors);
+    window.addEventListener('DOMContentLoaded',  fetchWallpaper);
+  </script>
 </body>
 </html>

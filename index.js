@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 9000;
-// const uri = "mongodb://127.0.0.1:27017/wallpaper-app"
-const uri ="mongodb+srv://devesh:devesh.1@cluster0.6lvsx80.mongodb.net/wallkaro?retryWrites=true&w=majority";
+const PORT = 8080;
+const uri = "mongodb://127.0.0.1:27017/wallpaper-app"
+// const uri ="mongodb+srv://devesh:devesh.1@cluster0.6lvsx80.mongodb.net/wallkaro?retryWrites=true&w=majority";
 // // Connect to MongoDB
 mongoose.connect(uri, );
 
@@ -20,7 +20,7 @@ const authRoutes = require('./routes/authRoutes');
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(express.static('public'));
 app.use('/auth', authRoutes);
 app.use('/author', authorRoutes);
 app.use('/wallpaper', wallpaperRoutes);

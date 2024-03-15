@@ -50,7 +50,7 @@ const listWallpapers = async (req, res) => {
       path: 'author',
       select: 'username',
     });
-    // .populate('category', 'name')
+    // .populate('category', 'name');
     // const wallpapers = await Wallpaper.find().populate({
     //   path: 'author',
     //   select: 'name',
@@ -59,8 +59,8 @@ const listWallpapers = async (req, res) => {
       id: wallpaper.id,
       title: wallpaper.title,
       likes: 0,
-      category: wallpaper.category
-      ?  wallpaper.category._id
+      categoryid: wallpaper.category
+      ?  wallpaper.category
       : null,
       categoryname: wallpaper.categoryname
       ?  wallpaper.categoryname
@@ -110,7 +110,7 @@ const trendingWallpapers = async (req, res) => {
 const addWallpaper = async (req, res) => {
   let existingCategory; 
   try {
-    const { title, authorname, trending, category, getimageurl } = req.body;
+    const { title, authorname, trending, categoryName, getimageurl } = req.body;
     console.log(req.body);
 //     const googleDriveLink = getimageurl;
 //     const fileIdMatch = googleDriveLink.match(/\/file\/d\/([^\/?]+)\//);
@@ -118,7 +118,7 @@ const addWallpaper = async (req, res) => {
 // // Check if there's a match and extract the file ID
 // const fileId = fileIdMatch && fileIdMatch[1];
 // const finalImageUrl = ("https://drive.usercontent.google.com/download?id="+fileId) ; 
-console.log(finalImageUrl);
+// console.log(getimageurl);
     let existingAuthor = await Author.findOne({
       'username': authorname,
     });
@@ -133,26 +133,24 @@ console.log(finalImageUrl);
 
    
     // Fetch or create the Category and get its ObjectId
-    let existingCategory = await Category.findOne({ name: category });
+    let existingCategory = await Category.findOne({ name: categoryName });
     if (!existingCategory) {
       existingCategory = new Category({
-        name: category,
-        categoryimage: "default_image_url",  // Replace with the appropriate default image URL
+        name: categoryName,
+        categoryimage: "https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?cs=srgb&dl=background-blur-clean-531880.jpg&fm=jpg" // Replace with the appropriate default image URL
       });
       await existingCategory.save();
     }
 
-    const newWallpaper = new Wallpaper(
+    const newWallpaper = new Wallpaper({
+      title: title,
+      imageurl: getimageurl,
+      category: existingCategory._id, // Assign the category ID
    
-      {
-      title : title,
-      imageurl : getimageurl,
-      category: existingCategory._id,
+      categoryname :    categoryName,
       trending,
-      author: existingAuthor._id,
-    },
-    console.log("new wallpaper clicked")
-    );
+      author: existingAuthor._id
+    });
 
     await newWallpaper.save();
 

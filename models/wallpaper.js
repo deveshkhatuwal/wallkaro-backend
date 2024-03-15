@@ -10,13 +10,14 @@ const wallpaperSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,ref: 'Author',required: true},
   trending : {type : Boolean,default : false},
   category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category',  // Reference to the Category model
-    required: true,
+    type : String,
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: 'Category',  // Reference to the Category model
+    required : true
+   
   },
   categoryname: {
     type: String,
-    
     required: true,
   },
   points : {
